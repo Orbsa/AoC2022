@@ -1,7 +1,12 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
-fn main() {
+fn read_input(path: &str) -> String {
+    std::fs::read_to_string(path).unwrap()
+}
+
+
+fn main1() {
     let filename = "src/input";
     let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
@@ -18,10 +23,27 @@ fn main() {
         let calories: i32 = line.parse().unwrap();
         cur_elf += calories;
     }
-    print!("{} elves. Max Calories: ",elfs.len());
-    let maxc = elfs.iter().max();
-    match maxc {
-        Some(maxc) => println!("{}",maxc),
-        None => println!("")
+    println!("{} elves.",elfs.len());
+    elfs.sort();
+    elfs.reverse();
+    println!("Max Calories: {}",elfs[0]);
+    let p2: i32 = elfs.iter().take(3).sum();
+    println!("Sum Calories of top 3 elves: {}",p2);
+}
+
+
+fn main() {
+    let input= read_input("src/input2");
+    let scores: [i8; 3] = [3,0,6];
+    let mut points: i32 = 0;
+    for line in input.lines() {
+        let ascii = line.as_bytes();
+        let opp:i8 = (ascii[0]  - b'A'+1) as i8;
+        let me:i8 = (ascii[2]  - b'X'+1) as i8;
+        let i = (3 - me + opp) % 3;
+        let score = scores[i as usize];
+        let rdpoints = me as i32 + score as i32;
+        points += rdpoints;
     }
+    println!("Total Points: {}",points);
 }
