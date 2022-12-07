@@ -6,7 +6,7 @@ fn read_input(path: &str) -> String {
 }
 
 
-fn main1() {
+fn day1_1() {
     let filename = "src/input";
     let file = File::open(filename).unwrap();
     let reader = BufReader::new(file);
@@ -32,7 +32,7 @@ fn main1() {
 }
 
 
-fn main() {
+fn day2_1() {
     let input= read_input("src/input2");
     let scores: [i8; 3] = [3,0,6];
     let mut points: i32 = 0;
@@ -46,4 +46,24 @@ fn main() {
         points += rdpoints;
     }
     println!("Total Points: {}",points);
+}
+
+fn day2_2() {
+    let input= read_input("src/input2");
+    let mut points: i32 = 0;
+    for line in input.lines() {
+        let ascii = line.as_bytes();
+        let opp:i8 = (ascii[0]  - b'A') as i8;
+        let res:i8 = (ascii[2]  - b'X') as i8;
+        let me = (3 + opp - 1 + res ) % 3 + 1;
+        let rdpoints = (res * 3) as i32 + me as i32;
+        points += rdpoints;
+        //println!("{}||O:{} R:{} M:{} P:{}",line,opp,res,me,rdpoints);
+    }
+    println!("Total Points: {}",points);
+
+}
+
+fn main() {
+    day2_2();
 }
